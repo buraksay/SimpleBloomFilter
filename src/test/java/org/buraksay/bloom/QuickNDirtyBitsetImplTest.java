@@ -9,7 +9,7 @@ import org.junit.Test;
 
 public class QuickNDirtyBitsetImplTest {
 
-    QuickNDirtyBitsetImpl impl;
+    IBitSet impl;
     
     @After
     public void tearDown() throws Exception {
@@ -30,9 +30,16 @@ public class QuickNDirtyBitsetImplTest {
     public void testGetSet() {
 	impl = new QuickNDirtyBitsetImpl(100);
 	for(long i=0;i<100;i++) {
-	    assertFalse(impl.get(i));
+	    for(long j=0;j<100;j++)
+		assertFalse(impl.get(j));
 	    impl.set(i);
-	    assertTrue(impl.get(i));
+	    for(long j=0;j<100;j++) {
+		if(j != i)
+		    assertFalse(impl.get(j));
+		else
+		    assertTrue(impl.get(j));
+	    }
+	    impl.clear(i);
 	}
      }
 
